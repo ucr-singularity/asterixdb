@@ -5,18 +5,13 @@ From: centos:centos7.5.1804
 Singularity container for the 0.9.4 snapshot of AsterixDB
 
 This environment utilizes the config and log files within your home directory.
-If you want to change the start and stop scripts, use the files in /opt/asterix/db-files/bin.
-If you want to change the config of AsterixDB, use the files in /opt/asterix/db-files/config.
-Logs for the program are located in /opt/asterix/db-files/logs.
-Data files for the database are located in /opt/asterix/db-files/data.
+If you want to change the start and stop scripts, use the files in /opt/asterix/asterixdb-files/bin.
+If you want to change the config of AsterixDB, use the files in /opt/asterix/asterixdb-files/config.
+Logs for the program are located in /opt/asterix/asterixdb-files/logs.
+Data files for the database are located in /opt/asterix/asterixdb-files/data.
 
 Files located in your home directory will not be changed when the singularity container is closed.
 Any changes that have occurred within the singularity container will be rolled back upon shutdown.
-
-
-%setup
-#    export {SINGULARITY ENVIRONMENT VAR FOR BIND POINTS}
-#    (Documentation: Bind paths & mounts)
 
 %post
     yum -y update
@@ -44,4 +39,5 @@ Any changes that have occurred within the singularity container will be rolled b
     mvn clean package -DskipTests
 
 %runscript
-    ./opt/asterix/db-files/bin/start-singularity-cluster.sh
+    echo "Please shell into singularity using "singularity shell <image>.simg""
+    echo "Once you shell into the container, then run start-singularity-cluster.sh in /opt/asterix/asterixdb-files/bin"
