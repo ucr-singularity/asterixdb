@@ -10,8 +10,8 @@ If you want to change the config of AsterixDB, use the files in /opt/asterix/ast
 Logs for the program are located in /opt/asterix/asterixdb-files/logs.
 Data files for the database are located in /opt/asterix/asterixdb-files/data.
 
-Files located in your home directory will not be changed when the singularity container is closed.
-Any changes that have occurred within the singularity container will be rolled back upon shutdown.
+Files located in the asterix user home directory under /opt/asterix can be changed freely, however
+any other files located within the singularity instance are immutable.
 
 %post
     yum -y update
@@ -37,7 +37,7 @@ Any changes that have occurred within the singularity container will be rolled b
     # Builds AsterixDB
     cd /opt/asterixdb
     mvn clean package -DskipTests
-
-%runscript
-    echo "Please shell into singularity using "singularity shell <image>.simg""
-    echo "Once you shell into the container, then run start-singularity-cluster.sh in /opt/asterix/asterixdb-files/bin"
+    
+%startscript
+    # Starts AsterixDB service in container
+    ./opt/asterix/asterixdb-files/bin/start-singularity-cluster.sh
