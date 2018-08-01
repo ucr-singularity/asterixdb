@@ -37,7 +37,10 @@ any other files located within the singularity instance are immutable.
     # Builds AsterixDB
     cd /opt/asterixdb
     mvn clean package -DskipTests
-    
+
+%environment
+    umask 022
+
 %startscript
     # Starts AsterixDB service in container
     ./opt/asterix/asterixdb-files/bin/start-singularity-cluster.sh
