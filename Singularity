@@ -43,4 +43,4 @@ any other files located within the singularity instance are immutable.
 
 %startscript
     # Starts AsterixDB service in container
-    ./opt/asterix/asterixdb-files/bin/start-singularity-cluster.sh
+    # ./opt/asterix/asterixdb-files/bin/start-singularity-cluster.sh
