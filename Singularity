@@ -37,6 +37,9 @@ any other files located within the singularity instance are immutable.
     # Builds AsterixDB
     cd /opt/asterixdb
     mvn clean package -DskipTests
+    
+    # Chowns the /opt/asterixdb folder to user with uid and gid 8889
+    chown -R 8889:8889 /opt/asterixdb
 
 %environment
     umask 022
