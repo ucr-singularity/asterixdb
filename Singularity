@@ -64,6 +64,8 @@ GLOBAL OPTIONS:
                       /asterixdb-files/logs/cc-service.log
 
 %apprun ccstart
+#!/bin/bash
+
 conf_file=""
 log_file=""
 
@@ -159,6 +161,8 @@ GLOBAL OPTIONS:
                      /asterixdb-files/logs/nc-service.log
 
 %apprun ncstart
+#!/bin/bash
+
 conf_file=""
 log_file=""
 
