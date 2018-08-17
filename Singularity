@@ -5,7 +5,6 @@ From: centos:centos7.5.1804
 Singularity container for the 0.9.4 snapshot of AsterixDB
 
 This environment utilizes the config and log files within your home directory.
-If you want to change the start and stop scripts, use the files in /opt/asterix/asterixdb-files/bin.
 If you want to change the config of AsterixDB, use the files in /opt/asterix/asterixdb-files/config.
 Logs for the program are located in /opt/asterix/asterixdb-files/logs.
 Data files for the database are located in /opt/asterix/asterixdb-files/data.
@@ -37,13 +36,182 @@ any other files located within the singularity instance are immutable.
     # Builds AsterixDB
     cd /opt/asterixdb
     mvn clean package -DskipTests
-    
+
     # Chowns the /opt/asterixdb folder to user with uid and gid 8889
     chown -R 8889:8889 /opt/asterixdb
 
 %environment
     umask 022
 
-%startscript
-    # Starts AsterixDB service in container
-    # ./opt/asterix/asterixdb-files/bin/start-singularity-cluster.sh
+######################
+         Apps
+######################
+
+
+#### CCSTART APP ####
+
+%apprun ccstart
+conf_file=""
+log_file=""
+
+while getopts ":c:l:" opt
+  do
+    case ${opt} in
+      c )
+        if [[ -f $OPTARG ]] ; then
+          conf_file=$OPTARG
+        else
+          echo "ERROR: Invalid path $OPTARG"
+          exit 1
+        fi
+        ;;
+
+      l )
+        file_name="$(basename $OPTARG 2> /dev/null)"
+        file_path="$OPTARG"
+        file_directory=${file_path%"$file_name"}
+        if [[ -d $file_directory ]] ; then
+          log_file=$OPTARG
+        else
+          echo "ERROR: Invalid path $OPTARG"
+          exit 1
+        fi
+        ;;
+
+      : )
+        echo "USAGE: singularity run --app ccstart <container path> -$OPTARG <path>"
+        exit 1
+        ;;
+
+      \? )
+        echo "ERROR: Invalid Argument -$OPTARG"
+        exit 1
+        ;;
+  esac
+done
+
+if [[ -z "$conf_file" && -z "$log_file" ]] ; then
+  echo "No options specified, using defaults..."
+  echo "Starting the AsterixDB CCService..."
+  nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixcc" -config-file "/opt/asterix/asterixdb-files/conf/cc.conf" >> "/opt/asterix/asterixdb-files/logs/cc-service.log" 2>&1 &
+  exit 0
+
+elif [[ -n "$conf_file" && -n "$log_file" ]] ; then
+  echo "Using the configuration file at $conf_file"
+  echo "Writing logs to $log_file"
+  echo "Starting the AsterixDB CCService..."
+  nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixcc" -config-file "$conf_file" >> "$log_file" 2>&1 &
+  exit 0
+
+else
+  if [[ -n "$conf_file" ]] ; then
+    echo "Using the configuration file at $conf_file"
+    echo "Starting the AsterixDB CCService..."
+    nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixcc" -config-file "$conf_file" >> "/opt/asterix/asterixdb-files/logs/cc-service.log" 2>&1 &
+    exit 0
+
+  else
+    echo "Writing logs to $log_file"
+    echo "Starting the AsterixDB CCService..."
+    nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixcc" -config-file "/opt/asterix/asterixdb-files/conf/cc.conf" >> "$log_file" 2>&1 &
+    exit 0
+  fi
+fi
+
+
+%apphelp ccstart
+USAGE: singularity run --app ccstart <container path> [global options...]
+
+A singularity app that starts the AsterixDB cluster controller within the singularity image.
+
+GLOBAL OPTIONS:
+    -c <path>         Specifies a path to the cluster controller configuration file.
+                      Default path is /opt/asterix/asterixdb-files/conf/cc.conf
+
+    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix
+                      /asterixdb-files/logs/cc-service.log
+
+
+
+#### NCSTART APP ####
+
+%apprun ncstart
+conf_file=""
+log_file=""
+
+while getopts ":c:l:" opt
+  do
+    case ${opt} in
+      c )
+        if [[ -f $OPTARG ]] ; then
+          conf_file=$OPTARG
+        else
+          echo "ERROR: Invalid path $OPTARG"
+          exit 1
+        fi
+        ;;
+
+      l )
+        file_name="$(basename $OPTARG 2> /dev/null)"
+        file_path="$OPTARG"
+        file_directory=${file_path%"$file_name"}
+        if [[ -d $file_directory ]] ; then
+          log_file=$OPTARG
+        else
+          echo "ERROR: Invalid path $OPTARG"
+          exit 1
+        fi
+        ;;
+
+      : )
+        echo "USAGE: singularity run --app ncstart <container path> -$OPTARG <path>"
+        exit 1
+        ;;
+
+      \? )
+        echo "ERROR: Invalid Argument -$OPTARG"
+        exit 1
+        ;;
+  esac
+done
+
+
+if [[ -z "$conf_file" && -z "$log_file" ]] ; then
+  echo "No options specified, using defaults..."
+  echo "Starting the AsterixDB NCService..."
+  nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixncservice" >> "/opt/asterix/asterixdb-files/logs/nc-service.log" 2>&1 &
+  exit 0
+
+elif [[ -n "$conf_file" && -n "$log_file" ]] ; then
+  echo "Using the configuration file at $conf_file"
+  echo "Writing logs to $log_file"
+  echo "Starting the AsterixDB NCService..."
+  nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixncservice" -config-file "$conf_file" >> "$log_file" 2>&1 &
+  exit 0
+
+else
+  if [[ -n "$conf_file" ]] ; then
+    echo "Using the configuration file at $conf_file"
+    echo "Starting the AsterixDB NCService..."
+    nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixncservice" -config-file "$conf_file" >> "/opt/asterix/asterixdb-files/logs/nc-service.log" 2>&1 &
+    exit 0
+
+  else
+    echo "Writing logs to $log_file"
+    echo "Starting the AsterixDB NCService..."
+    nohup "/opt/asterixdb/asterixdb/asterix-server/target/asterix-server-0.9.4-SNAPSHOT-binary-assembly/bin/asterixncservice" >> "$log_file" 2>&1 &
+    exit 0
+  fi
+fi
+
+%apphelp ncstart
+USAGE: singularity run --app ncstart <container path> [global options...]
+
+A singularity app that starts the AsterixDB node controller within the singularity image.
+
+GLOBAL OPTIONS:
+    -c <path>        Specifies a path to the node controller configuration file.
+                     Default runs the node controller without a configuration file.
+
+    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix
+                      /asterixdb-files/logs/nc-service.log
