@@ -50,6 +50,19 @@ any other files located within the singularity instance are immutable.
 
 #### CCSTART APP ####
 
+
+%apphelp ccstart
+USAGE: singularity run --app ccstart <container path> [global options...]
+
+A singularity app that starts the AsterixDB cluster controller within the singularity image.
+
+GLOBAL OPTIONS:
+    -c <path>         Specifies a path to the cluster controller configuration file.
+                      Default path is /opt/asterix/asterixdb-files/conf/cc.conf
+
+    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix
+                      /asterixdb-files/logs/cc-service.log
+
 %apprun ccstart
 conf_file=""
 log_file=""
@@ -65,7 +78,6 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;
-
       l )
         file_name="$(basename $OPTARG 2> /dev/null)"
         file_path="$OPTARG"
@@ -77,7 +89,6 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;
-        
       h )
         echo "USAGE: singularity run --app ccstart <container path> [global options...]"
         echo ""
@@ -90,12 +101,10 @@ while getopts ":c:l:h" opt
         echo "    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix"
         echo "                      /asterixdb-files/logs/cc-service.log"
         exit 0
-
       : )
         echo "USAGE: singularity run --app ccstart <container path> -$OPTARG <path>"
         exit 1
         ;;
-
       \? )
         echo "ERROR: Invalid argument -$OPTARG"
         exit 1
@@ -135,22 +144,19 @@ else
   fi
 fi
 
+#### NCSTART APP ####
 
-%apphelp ccstart
-USAGE: singularity run --app ccstart <container path> [global options...]
+%apphelp ncstart
+USAGE: singularity run --app ncstart <container path> [global options...]
 
-A singularity app that starts the AsterixDB cluster controller within the singularity image.
+A singularity app that starts the AsterixDB node controller within the singularity image.
 
 GLOBAL OPTIONS:
-    -c <path>         Specifies a path to the cluster controller configuration file.
-                      Default path is /opt/asterix/asterixdb-files/conf/cc.conf
+    -c <path>        Specifies a path to the node controller configuration file.
+                     Default runs the node controller without a configuration file.
 
-    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix
-                      /asterixdb-files/logs/cc-service.log
-
-
-
-#### NCSTART APP ####
+    -l <path>        Specifies a path to log stdout. Default path is /opt/asterix
+                     /asterixdb-files/logs/nc-service.log
 
 %apprun ncstart
 conf_file=""
@@ -167,7 +173,6 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;
-
       l )
         file_name="$(basename $OPTARG 2> /dev/null)"
         file_path="$OPTARG"
@@ -178,8 +183,7 @@ while getopts ":c:l:h" opt
           echo "ERROR: Directory $OPTARG does not exist"
           exit 1
         fi
-        ;;
-        
+        ;;  
       h )
         echo "USAGE: singularity run --app ncstart <container path> [global options...]"
         echo ""
@@ -192,12 +196,10 @@ while getopts ":c:l:h" opt
         echo "    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix"
         echo "                      /asterixdb-files/logs/nc-service.log"
         exit 0
-
       : )
         echo "USAGE: singularity run --app ncstart <container path> -$OPTARG <path>"
         exit 1
         ;;
-
       \? )
         echo "ERROR: Invalid argument -$OPTARG"
         exit 1
@@ -236,15 +238,3 @@ else
     exit 0
   fi
 fi
-
-%apphelp ncstart
-USAGE: singularity run --app ncstart <container path> [global options...]
-
-A singularity app that starts the AsterixDB node controller within the singularity image.
-
-GLOBAL OPTIONS:
-    -c <path>        Specifies a path to the node controller configuration file.
-                     Default runs the node controller without a configuration file.
-
-    -l <path>        Specifies a path to log stdout. Default path is /opt/asterix
-                     /asterixdb-files/logs/nc-service.log
