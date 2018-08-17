@@ -90,6 +90,8 @@ while getopts ":c:l:" opt
   esac
 done
 
+cd /opt/asterix
+
 if [[ -z "$conf_file" && -z "$log_file" ]] ; then
   echo "No options specified, using defaults..."
   echo "Starting the AsterixDB CCService..."
@@ -175,6 +177,7 @@ while getopts ":c:l:" opt
   esac
 done
 
+cd /opt/asterix
 
 if [[ -z "$conf_file" && -z "$log_file" ]] ; then
   echo "No options specified, using defaults..."
