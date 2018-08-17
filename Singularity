@@ -44,7 +44,7 @@ any other files located within the singularity instance are immutable.
     umask 022
 
 ######################
-         Apps
+#        Apps        #
 ######################
 
 
