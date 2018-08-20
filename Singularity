@@ -72,7 +72,7 @@ log_file=""
 while getopts ":c:l:h" opt
   do
     case ${opt} in
-      c )
+      c)
         if [[ -f $OPTARG ]] ; then
           conf_file=$OPTARG
         else
@@ -80,7 +80,7 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;
-      l )
+      l)
         file_name="$(basename $OPTARG 2> /dev/null)"
         file_path="$OPTARG"
         file_directory=${file_path%"$file_name"}
@@ -91,7 +91,7 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;
-      h )
+      h)
         echo "USAGE: singularity run --app ccstart <container path> [global options...]"
         echo ""
         echo "A singularity app that starts the AsterixDB cluster controller within the singularity image."
@@ -103,11 +103,11 @@ while getopts ":c:l:h" opt
         echo "    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix"
         echo "                      /asterixdb-files/logs/cc-service.log"
         exit 0
-      ":" )
+      :)
         echo "USAGE: singularity run --app ccstart <container path> -$OPTARG <path>"
         exit 1
         ;;
-      \? )
+      \?)
         echo "ERROR: Invalid argument -$OPTARG"
         exit 1
         ;;
@@ -169,7 +169,7 @@ log_file=""
 while getopts ":c:l:h" opt
   do
     case ${opt} in
-      c )
+      c)
         if [[ -f $OPTARG ]] ; then
           conf_file=$OPTARG
         else
@@ -177,7 +177,7 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;
-      l )
+      l)
         file_name="$(basename $OPTARG 2> /dev/null)"
         file_path="$OPTARG"
         file_directory=${file_path%"$file_name"}
@@ -188,7 +188,7 @@ while getopts ":c:l:h" opt
           exit 1
         fi
         ;;  
-      h )
+      h)
         echo "USAGE: singularity run --app ncstart <container path> [global options...]"
         echo ""
         echo "A singularity app that starts the AsterixDB node controller within the singularity image."
@@ -200,11 +200,11 @@ while getopts ":c:l:h" opt
         echo "    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix"
         echo "                      /asterixdb-files/logs/nc-service.log"
         exit 0
-      ":" )
+      :)
         echo "USAGE: singularity run --app ncstart <container path> -$OPTARG <path>"
         exit 1
         ;;
-      \? )
+      \?)
         echo "ERROR: Invalid argument -$OPTARG"
         exit 1
         ;;
