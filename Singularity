@@ -103,15 +103,15 @@ while getopts ":c:l:h" opt
         echo "    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix"
         echo "                      /asterixdb-files/logs/cc-service.log"
         exit 0
-      :)
-        echo "USAGE: singularity run --app ccstart <container path> -$OPTARG <path>"
-        exit 1
-        ;;
       \?)
         echo "ERROR: Invalid argument -$OPTARG"
         exit 1
         ;;
   esac
+  if [[ ${opt} == ":" ]] ; then
+    echo "USAGE: singularity run --app ccstart <container path> -$OPTARG <path>"
+    exit 1
+  fi
 done
 
 cd /opt/asterix
@@ -200,15 +200,15 @@ while getopts ":c:l:h" opt
         echo "    -l <path>         Specifies a path to log stdout. Default path is /opt/asterix"
         echo "                      /asterixdb-files/logs/nc-service.log"
         exit 0
-      :)
-        echo "USAGE: singularity run --app ncstart <container path> -$OPTARG <path>"
-        exit 1
-        ;;
       \?)
         echo "ERROR: Invalid argument -$OPTARG"
         exit 1
         ;;
   esac
+  if [[ ${opt} == ":" ]] ; then
+    echo "USAGE: singularity run --app ccstart <container path> -$OPTARG <path>"
+    exit 1
+  fi
 done
 
 cd /opt/asterix
