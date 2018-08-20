@@ -65,6 +65,7 @@ GLOBAL OPTIONS:
 
 %apprun ccstart
 #!/bin/bash
+set -x
 
 conf_file=""
 log_file=""
@@ -162,6 +163,7 @@ GLOBAL OPTIONS:
 
 %apprun ncstart
 #!/bin/bash
+set -x
 
 conf_file=""
 log_file=""
