@@ -20,6 +20,8 @@ any other files located within the singularity instance are immutable.
     yum -y install java-1.8.0-openjdk-devel
     yum -y install centos-release-scl
     yum -y install rh-maven35
+    yum -y install iproute
+    yum -y install net-tools
 
     # Clones the AsterixDB repository to /opt
     cd /opt
